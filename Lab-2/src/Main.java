@@ -43,7 +43,7 @@ class hashTree
 		root = new Node();
 	}
 	
-	public void find()
+	public void search()
 	{
 		
 	}
