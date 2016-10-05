@@ -1,5 +1,7 @@
 import java.util.Scanner;
 
+//Why does everything related to Git suck SO MUCH COCK?!?!?!
+
 public class Main 
 {
 	public static void main(String[] args)
