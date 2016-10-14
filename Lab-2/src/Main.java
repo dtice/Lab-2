@@ -1,7 +1,16 @@
 import java.util.Random;
 import java.util.Scanner;
 
-//Sick. Egit is working
+/**
+ * @author DillT
+ * 
+ *	A method for handling hash table collisions using tree data structures (separate chaining)
+ *	Classes include: Node, HashTree, and HashMap
+ *	------------------------------------------------------------------------------------------
+ *	Main method includes options for showing the hash table, inserting new entries into the 
+ *	hash table, and searching for an existing entry. Hash table is initialized in main with
+ *	numbers.
+ */
 
 public class Main {
 	public static void main(String[] args) {
@@ -11,19 +20,49 @@ public class Main {
 		hashMap hm = new hashMap();
 		System.out.println("Enter initial number of items: ");
 		itemNum = in.nextInt();
-		for (int i = 0; i < itemNum; i++)
-		{
+		for (int i = 0; i < itemNum; i++) {
 			hm.insert(rand.nextInt(1000));
 		}
-		hm.show();
-		while(true)
-		{
-			System.out.println("Enter a value to search for: ");
-			hm.search(in.nextInt());
+		while (1 == 1) {
+			System.out.println();
+			System.out.println("Make a selection:\n0: Exit\n1: Show\n2: Search\n3: Insert");
+			int menuNum = in.nextInt();
+			switch (menuNum) {
+			case 0: //Exits the program
+				System.exit(0);
+				break;
+			case 1:	//Shows the hash table
+				hm.show();
+				break;
+			case 2:	//Searches the hash table
+				System.out.println("Enter a value to search for: ");
+				int find = in.nextInt();
+				if (hm.search(find)) {
+					System.out.println("Found: " + find);
+				} else {
+					System.out.println("Couldn't find: " + find);
+				}
+				break;
+			case 3:	//Inserts into the hash table
+				System.out.println("Enter a value to insert: ");
+				int value = in.nextInt();
+				if (hm.search(value) != true) {
+					hm.insert(value);
+				} else {
+					System.out.println("Error: Value already exists.");
+				}
+				break;
+			}
 		}
 	}
 }
 
+/**
+ * 
+ * @author DillT
+ *	Node class, holds entry information
+ *	and pointers to left and right children
+ */
 class Node {
 	int key;
 	Node left;
@@ -40,6 +79,13 @@ class Node {
 		return key;
 	}
 }
+
+/**
+ * 
+ * @author DillT
+ *	Creates a basic binary search tree that holds nodes.
+ *	Has search, insert, and show methods.
+ */
 
 class hashTree {
 	Node root;
@@ -75,22 +121,21 @@ class hashTree {
 		}
 	}
 
-	public void search(int key) {
-        Node x = root;
-        while (x != null) {
-            if(x.getKey() < key) 
-            	{
-            		x = x.left;
-            	}
-            else if (x.getKey() > key){
-            	x = x.right;
-            }
-            else System.out.println("Found: " + key);
-            return;
-        }
-        System.out.println("Did not find: " + key);
-        return;
-    }
+	public boolean search(int key) {
+		boolean found = false;
+		Node current = root;
+		while (current != null) {
+			if (current.getKey() == key) {
+				found = true;
+				return found;
+			} else if (current.getKey() > key) {
+				current = current.left;
+			} else {
+				current = current.right;
+			}
+		}
+		return found;
+	}
 
 	public void print(Node root) {
 		if (root != null) {
@@ -100,7 +145,11 @@ class hashTree {
 		}
 	}
 }
-
+/**
+ * @author DillT
+ *	HashMap class creates an array of HashTrees and organizes entries
+ *	according to hash function in insert method.
+ */
 class hashMap {
 	int tableSize;
 	hashTree[] table;
@@ -115,11 +164,9 @@ class hashMap {
 			table[i] = new hashTree();
 		}
 	}
-	
-	void show()
-	{
-		for(int i = 0; i < tableSize; i++)
-		{
+
+	void show() {
+		for (int i = 0; i < tableSize; i++) {
 			System.out.print(i + ": ");
 			table[i].print(table[i].root);
 			System.out.println();
@@ -131,14 +178,18 @@ class hashMap {
 	}
 
 	/**
+	 * @param key
 	 * Search function finds hashTree that contains the key, searches the tree
 	 * for the key, then returns it.
-	 * 
-	 * @param key
-	 *            : value you are searching for
 	 */
-	void search(int key) {
-		table[key % tableSize].search(key);
+	boolean search(int key) {
+		boolean found = false;
+		if (table[key % tableSize].search(key)) {
+			found = true;
+			return found;
+		} else {
+			return found;
+		}
 	}
 
 }
